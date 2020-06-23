@@ -1,0 +1,24 @@
+官方QQ：996666448
+cd /viabtc/kafka_2.12-2.1.1
+bin/zookeeper-server-start.sh -daemon config/zookeeper.properties
+bin/kafka-server-start.sh config/server.properties
+nohup bin/kafka-server-start.sh config/server.properties 2>&1 &
+tail -f nohup.out 
+cd ../redis/
+nohup redis-server /etc/redis.conf 2>&1 &
+nohup redis-sentinel /etc/redis-sentinel.conf 2>&1 &
+cd /viabtc/viabtc_exchange_server/matchengine/  &&  ./restart.sh 
+cd ../alertcenter/  &&  ./restart.sh 
+cd ../readhistory/  &&  ./restart.sh 
+cd ../accesshttp/  &&  ./restart.sh 
+cd ../accessws/  &&  ./restart.sh 
+cd ../marketprice/  &&  ./restart.sh 
+curl http://localhost:8080 -d '{"method": "market.list", "params": [], "id": 1516681174}'
+cd /viabtc/viabtc_exchange_server/matchengine && python ./update_coins.py 
+nohup python ./update_coins.py 2>&1 &
+cd /www/wwwroot/jinglanex/python/  &&  python ./robot.py
+nohup python ./robot.py 2>&1 &
+tail -f nohup.out 
+
+一条一条运行，遇到不动 就按 ctrl+c
+官方QQ：996666448
